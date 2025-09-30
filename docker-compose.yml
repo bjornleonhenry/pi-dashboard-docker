@@ -1,0 +1,36 @@
+services:
+  app:
+    container_name: pi-dashboard-client
+    working_dir: /app/client
+    build:
+      context: ./app/client
+      target: dev
+    volumes:
+      - ./app/client/src:/app/client/src
+      - ./app/client/.svelte-kit/:/app/client/.svelte-kit
+    ports:
+      - 3000:3000
+    restart: always
+
+  pb:
+    container_name: pi-dashboard-pb
+    working_dir: /pb
+    build:
+      context: ./pb
+    volumes:
+      - ./pb/pb_data:/pb/pb_data
+      - ./pb/pb_migrations:/pb/pb_migrations
+    ports:
+      - 8095:8095
+
+
+  server:
+    container_name: pi-dashboard-server
+    working_dir: /app/server
+    build:
+      context: ./app/server
+    volumes:
+      - ./app/server:/app/server
+    ports:
+      - 5000:5000
+ 
